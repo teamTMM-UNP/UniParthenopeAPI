@@ -1,5 +1,8 @@
 from flask import Flask, Blueprint, url_for, jsonify, current_app, abort
 from flask_restplus import Api, Resource, reqparse
+from flask_marshmallow import Marshmallow, base_fields
+from marshmallow import post_dump
+import werkzeug
 import os
 
 app = Flask(__name__)
@@ -22,10 +25,10 @@ configure_app(app)
 
 api = Api(app)
 
-@api.route('/login/<token>')
+@api.route('/login/<token>',methods=['GET'])
 class login(Resource):
     def login(token):
-        return {'token' : token}
+        return {'token': token}
 
 
 '''@app.route('/boundle', methods=['GET'])
