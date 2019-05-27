@@ -36,11 +36,8 @@ class Login(Resource):
         }
 
         response = requests.request("GET", url+"login", headers=headers)
-
-        print('Response: ' + str(response))
-
-
-        return jsonify({'response': response})
+        
+        return jsonify({'response' : response.json()})
 
 
 '''@app.route('/boundle', methods=['GET'])
