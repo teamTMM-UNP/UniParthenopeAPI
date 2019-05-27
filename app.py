@@ -76,13 +76,16 @@ class TotalExams(Resource):
         for i in range(0,len(_response)):
             if _response[i]['tipoMediaCod']['value'] == value:
                 if _response[i]['base'] == 30:
+                    base_trenta = 30
                     media_trenta = _response[i]['media']
                 if _response[i]['base'] == 110:
+                    base_centodieci = 30
                     media_centodieci = _response[i]['media']
 
         return jsonify({'trenta': media_trenta,
+                        'base_trenta': base_trenta,
+                        'base_centodieci': base_centodieci,
                         'centodieci': media_centodieci})
-
 
 
 if __name__ == '__main__':
