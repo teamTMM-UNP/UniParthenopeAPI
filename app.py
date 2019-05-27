@@ -101,11 +101,9 @@ class CurrentAA(Resource):
             if _response[i]['aaSesId'] > max_year:
                 max_year = _response[i]['aaSesId']
 
-                dataInizio = re.search(r'\d{2}/\d{2}/\d{4}', _response[i]['dataInizio'])
-                dataFine = re.search(r'\d{2}/\d{2}/\d{4}', _response[i]['dataFine'])
-
-                print('D.INIZIO =' + dataInizio)
-                print('D.FINE =' + dataFine)
+                dataInizio = re.search(r'\d{2}/d{2}/\d{4}', _response[i]['dataInizio'])
+                date_Start = date.strptime(_response[i]['dataInizio'], '%d/%m/%Y').date()
+                print('D.INIZIO =' + str(date_Start))
 
 
 if __name__ == '__main__':
