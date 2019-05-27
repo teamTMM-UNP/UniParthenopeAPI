@@ -37,10 +37,8 @@ class Login(Resource):
 
         response = requests.request("GET", url+"login", headers=headers)
 
-        if response.status_code != 200:
-            print('error: ' + str(response.status_code))
-        else:
-            print('Success')
+        print('Response: ' + str(response))
+
 
         return {'response': response}
 
