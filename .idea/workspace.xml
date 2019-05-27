@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
+            <state relative-caret-position="346">
+              <caret line="107" column="41" lean-forward="true" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
               <folding>
                 <element signature="e#0#72#0" expanded="true" />
               </folding>
@@ -118,7 +118,7 @@
       <updated>1558954342797</updated>
       <workItem from="1558954345303" duration="721000" />
       <workItem from="1558958720328" duration="7695000" />
-      <workItem from="1558986047142" duration="8789000" />
+      <workItem from="1558986047142" duration="10359000" />
     </task>
     <task id="LOCAL-00001" summary="sh file">
       <created>1558958764193</created>
@@ -225,11 +225,18 @@
       <option name="project" value="LOCAL" />
       <updated>1558991498251</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="session">
+      <created>1558996469293</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1558996469293</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17205000" />
+    <option name="totallyTimeSpent" value="18775000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="53" y="15" width="1400" height="1000" extended-state="0" />
@@ -271,7 +278,8 @@
     <MESSAGE value="Login ok" />
     <MESSAGE value="libretto api" />
     <MESSAGE value="medie" />
-    <option name="LAST_COMMIT_MESSAGE" value="medie" />
+    <MESSAGE value="session" />
+    <option name="LAST_COMMIT_MESSAGE" value="session" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/UniParthenopeAPI.sh">
@@ -283,8 +291,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
+        <state relative-caret-position="346">
+          <caret line="107" column="41" lean-forward="true" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
           <folding>
             <element signature="e#0#72#0" expanded="true" />
           </folding>
