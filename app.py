@@ -40,7 +40,7 @@ class Login(Resource):
         print('Response: ' + str(response))
 
 
-        return {'response': response}
+        return jsonify({'response': response})
 
 
 '''@app.route('/boundle', methods=['GET'])
