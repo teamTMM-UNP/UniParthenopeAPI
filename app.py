@@ -53,4 +53,4 @@ class version(Resource):
         return {'version' : contents[0]}'''
 
 if __name__ == '__main__':
-    app.run()
+    app.run(ssl_context='adhoc')
