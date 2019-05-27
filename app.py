@@ -26,7 +26,7 @@ configure_app(app)
 
 api = Api(app)
 
-@api.route('/login/<token>',methods=['GET'])
+@api.route('api/uniparthenope/login/<token>',methods=['GET'])
 class Login(Resource):
     def get(self,token):
 
@@ -39,18 +39,6 @@ class Login(Resource):
         
         return jsonify({'response' : response.json()})
 
-
-'''@app.route('/boundle', methods=['GET'])
-def return_file():
-    return send_file('./file/boundle.zip', as_attachment=True, attachment_filename="boundle.zip")
-
-@api.route('/version', methods=['GET'])
-class version(Resource):
-    def get(self):
-        contents = ""
-        f = open('version.txt', 'r')
-        contents = f.read().splitlines()
-        return {'version' : contents[0]}'''
 
 if __name__ == '__main__':
     app.run(ssl_context='adhoc')
