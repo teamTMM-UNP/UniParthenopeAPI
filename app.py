@@ -51,7 +51,6 @@ class TotalExams(Resource):
         }
         response = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/stats", headers=headers)
         _response = response.json()
-        print('Response = ' + str(_response))
         totAdSuperate = _response['numAdSuperate'] + _response['numAdFrequentate']
         return jsonify({'totAdSuperate': totAdSuperate,
                         'numAdSuperate': _response['numAdSuperate'],
@@ -66,26 +65,22 @@ class TotalExams(Resource):
             'Content-Type': "application/json",
             "Authorization": "Basic " + token
         }
-        if value != "P" or value != "A":
-            return jsonify({'statusCode': 500,
-                            'retErrMsg': "Invalid value! (usage P or A)"})
-
         response = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/medie", headers=headers)
 
         _response = response.json()
         for i in range(0,len(_response)):
-            if _response[i]['tipoMediaCod']['value'] == value:
-                if _response[i]['base'] == 30:
+            if _response[i]['tipoMediaCod']['value'] is value:
+                if _response[i]['base'] is 30:
                     base_trenta = 30
                     media_trenta = _response[i]['media']
-                if _response[i]['base'] == 110:
-                    base_centodieci = 30
+                if _response[i]['base'] is 110:
+                    base_centodieci = 110
                     media_centodieci = _response[i]['media']
 
         return jsonify({'trenta': media_trenta,
-                        'base_trenta': base_trenta,
-                        'base_centodieci': base_centodieci,
-                        'centodieci': media_centodieci})
+                            'base_trenta': base_trenta,
+                            'base_centodieci': base_centodieci,
+                            'centodieci': media_centodieci})
 
 
 if __name__ == '__main__':
