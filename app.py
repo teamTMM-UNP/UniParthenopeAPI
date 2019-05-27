@@ -26,8 +26,8 @@ configure_app(app)
 api = Api(app)
 
 @api.route('/login/<token>',methods=['GET'])
-class login(Resource):
-    def login(token):
+class Login(Resource):
+    def get(self,token):
         return {'token': token}
 
 
