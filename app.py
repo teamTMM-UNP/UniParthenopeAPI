@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, url_for, jsonify, current_app, abort
 from flask_restplus import Api, Resource, reqparse
-from datetime import date
+from datetime import datetime
 from flask_marshmallow import Marshmallow, base_fields
 from marshmallow import post_dump
 import werkzeug
@@ -95,7 +95,7 @@ class CurrentAA(Resource):
         response = requests.request("GET", url + "calesa-service-v1/sessioni?cdsId=" + cdsId, headers=headers)
         _response = response.json()
 
-        today = date.today()
+        curr_day = datetime.today()
         max_year = 0
         for i in range(0, len(_response)):
             if _response[i]['aaSesId'] > max_year:
@@ -103,10 +103,21 @@ class CurrentAA(Resource):
 
         for i in range(0, len(_response)):
             if _response[i]['aaSesId'] == max_year:
-               startDate = _response[i]['dataInizio']
-                startD = startDate.split(' ')[0]
-                print('START = '+ startD)
+                startD = _response[i]['dataInizio'].split()[0]
+                startDate = datetime.strptime(startD, '%d/%m/%Y')
+                endD = _response[i]['dataFine'].split()[0]
+                endDate = datetime.strptime(endD, '%d/%m/%Y')
+
+                if (curr_day >= startDate and curr_day <= endDate):
+                    curr_sem = _response[i]['des']
+                    if (curr_sem == "Sessione Anticipata" or curr_sem == "Sessione Estiva"):
+                        return jsonify({'curr_sem': _response[i]['des'],
+                                        'semestre': "Secondo Semestre"})
+                    else:
+                        return jsonify({'curr_sem': _response[i]['des'],
+                                        'semestre': "Primo Semestre"})
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc')
+        app.run(ssl_context='adhoc')
+
