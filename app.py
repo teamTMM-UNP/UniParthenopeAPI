@@ -46,13 +46,13 @@ class Login(Resource):
             "Authorization": "Basic " + token
         }
         response = requests.request("GET", url + "libretto-service-v1/libretti/"+ matId +"/stats", headers=headers)
-        response = response.json()
-        totAdSuperate = response.numAdSuperate + response.numAdFrequentate
+        _response = response.json()
+        print('Response = '+ str(_response))
+        totAdSuperate = _response['numAdSuperate'] + _response['numAdFrequentate']
         return jsonify({'totAdSuperate': totAdSuperate,
-                        'numAdFrequentate': response.numAdFrequentate,
-                        'numAdSuperate': response.numAdSuperate,
-                        'cfuPar': response.umPesoSuperato,
-                        'cfuTot': response.umPesoPiano})
+                        'numAdSuperate': _response['numAdSuperate'],
+                        'cfuPar': _response['umPesoSuperato'],
+                        'cfuTot': _response['umPesoPiano']})
 
 
 if __name__ == '__main__':
