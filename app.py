@@ -3,6 +3,7 @@ from flask_restplus import Api, Resource, reqparse
 from flask_marshmallow import Marshmallow, base_fields
 from marshmallow import post_dump
 import werkzeug
+import requests
 import os
 
 app = Flask(__name__)
@@ -28,7 +29,20 @@ api = Api(app)
 @api.route('/login/<token>',methods=['GET'])
 class Login(Resource):
     def get(self,token):
-        return {'token': token}
+
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+
+        response = requests.request("GET", url+"login", headers=headers)
+
+        if response.status_code != 200:
+            print('error: ' + str(response.status_code))
+        else:
+            print('Success')
+
+        return {'response': response}
 
 
 '''@app.route('/boundle', methods=['GET'])
