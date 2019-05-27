@@ -29,15 +29,30 @@ api = Api(app)
 @api.route('/api/uniparthenope/login/<token>',methods=['GET'])
 class Login(Resource):
     def get(self,token):
-
         headers = {
             'Content-Type': "application/json",
             "Authorization": "Basic " + token
         }
-
         response = requests.request("GET", url+"login", headers=headers)
         
         return jsonify({'response' : response.json()})
+
+
+@api.route('/api/uniparthenope/totalexams/<token>/<matId>', methods=['GET'])
+class Login(Resource):
+    def get(self, token,matId):
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+        response = requests.request("GET", url + "libretto-service-v1/libretti/"+ matId +"/stats", headers=headers)
+        response = response.json()
+        totAdSuperate = response.numAdSuperate + response.numAdFrequentate
+        return jsonify({'totAdSuperate': totAdSuperate,
+                        'numAdFrequentate': response.numAdFrequentate,
+                        'numAdSuperate': response.numAdSuperate,
+                        'cfuPar': response.umPesoSuperato,
+                        'cfuTot': response.umPesoPiano})
 
 
 if __name__ == '__main__':
