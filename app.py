@@ -26,7 +26,7 @@ configure_app(app)
 
 api = Api(app)
 
-@api.route('api/uniparthenope/login/<token>',methods=['GET'])
+@api.route('/api/uniparthenope/login/<token>',methods=['GET'])
 class Login(Resource):
     def get(self,token):
 
