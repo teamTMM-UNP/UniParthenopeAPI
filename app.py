@@ -167,8 +167,12 @@ class CurrentAA(Resource):
         _response = response.json()
 
         if response.status_code == 500:
-            print('Errore!')
-
+            return jsonify({'stato': "Indefinito",
+                            'tipo': "",
+                            'data': "",
+                            'lode': 0,
+                            'voto': "",
+                            })
         else:
             return jsonify({'stato': _response['statoDes'],
                             'tipo': _response['tipoInsDes'],
