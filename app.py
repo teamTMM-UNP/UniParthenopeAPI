@@ -141,7 +141,7 @@ class CurrentAA(Resource):
 
         for i in range(0, len(_response['attivita'])):
             if _response['attivita'][i]['sceltaFlg'] == 1:
-                print("MyExam =" + str(_response['attivita'][i]['chiaveADContestualizzata']['adDes']))
+
                 actual_exam = {}
                 actual_exam.update({'nome':_response['attivita'][i]['adLibDes'],
                                     'codice': _response['attivita'][i]['adLibCod'],
@@ -168,10 +168,42 @@ class CurrentAA(Resource):
 
         return jsonify({'stato': _response['statoDes'],
                         'tipo': _response['tipoInsDes'],
-                        'data': _response['esito']['dataEsa'],
+                        'data': _response['esito']['dataEsa'].split()[0],
                         'lode': _response['esito']['lodeFlg'],
                         'voto': _response['esito']['voto'],
                         })
+
+@api.route('/api/uniparthenope/checkAppello/<token>/<cdsId>/<adId>', methods=['GET'])
+class CurrentAA(Resource):
+    def get(self, token, cdsId, adId):
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+        response = requests.request("GET", url + "calesa-service-v1/appelli/" + cdsId + "/" + adId, headers=headers)
+        _response = response.json()
+
+        my_exams = []
+        for i in range(0, len(_response)):
+            if _response[i]['stato'] == "I" or _response[i]['stato'] == "P":
+                actual_exam = {}
+                actual_exam.update({'esame': _response[i]['adDes'],
+                                    'appId': _response[i]['appId'],
+                                    'stato': _response[i]['stato'],
+                                    'statoDes': _response[i]['statoDes'],
+                                    'docente': _response[i]['presidenteCognome'].capitalize(),
+                                    'docente_completo': _response[i]['presidenteCognome'].capitalize() + " " + _response[i]['presidenteNome'].capitalize(),
+                                    'numIscritti': _response[i]['numIscritti'],
+                                    'note': _response[i]['note'],
+                                    'descrizione': _response[i]['desApp'],
+                                    'dataFine': _response[i]['dataFineIscr'].split()[0],
+                                    'dataInizio': _response[i]['dataInizioIscr'].split()[0],
+                                    'dataEsame': _response[i]['dataInizioApp'].split()[0],
+                                    })
+
+                my_exams.append(actual_exam)
+
+        return jsonify(my_exams)
 
 
 def extractData(data):
