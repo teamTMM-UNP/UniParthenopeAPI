@@ -176,7 +176,7 @@ class CurrentAA(Resource):
         else:
             return jsonify({'stato': _response['statoDes'],
                             'tipo': _response['tipoInsDes'],
-                            'data': _response['esito']['dataEsa'],
+                            'data': _response['esito']['dataEsa'].split()[0],
                             'lode': _response['esito']['lodeFlg'],
                             'voto': _response['esito']['voto'],
                             })
