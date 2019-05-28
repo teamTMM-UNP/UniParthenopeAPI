@@ -125,11 +125,12 @@ class CurrentAA(Resource):
         }
         response = requests.request("GET", url + "piani-service-v1/piani/" + stuId, headers=headers)
         _response = response.json()
-        pianoId = _response['pianoId']
+        pianoId = _response[0]['pianoId']
+
         return jsonify({'pianoId': pianoId})
 
 
-@api.route('/api/uniparthenope/totExams/<token>/<stuId>/<pianoId>', methods=['GET'])
+@api.route('/api/uniparthenope/exams/<token>/<stuId>/<pianoId>', methods=['GET'])
 class CurrentAA(Resource):
     def get(self, token, stuId, pianoId):
         headers = {
@@ -138,10 +139,40 @@ class CurrentAA(Resource):
         }
         response = requests.request("GET", url + "piani-service-v1/piani/" + stuId + "/" + pianoId, headers=headers)
         _response = response.json()
+        my_exams = []
 
-        for i in range(0, len(_response)):
-            print("MyExam =" + str(_response[i]['adDes']))
+        for i in range(0, len(_response['attivita'])):
+            if _response['attivita'][i]['sceltaFlg'] == 1:
+                print("MyExam =" + str(_response['attivita'][i]['chiaveADContestualizzata']['adDes']))
+                actual_exam = {}
+                actual_exam.update({'nome':_response['attivita'][i]['adLibDes'],
+                                    'codice': _response['attivita'][i]['adLibCod'],
+                                    'adId': _response['attivita'][i]['chiaveADContestualizzata']['adId'],
+                                    'CFU': _response['attivita'][i]['peso'],
+                                    'annoId': _response['attivita'][i]['scePianoId'],
+                                    'adsceId': _response['attivita'][i]['adsceAttId']
+                                 })
 
+                my_exams.append(actual_exam)
+
+        return jsonify(my_exams)
+
+@api.route('/api/uniparthenope/checkExam/<token>/<matId>/<examId>', methods=['GET'])
+class CurrentAA(Resource):
+    def get(self, token, matId, examId):
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+        response = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/righe/" + examId, headers=headers)
+        _response = response.json()
+
+        return jsonify({'stato': _response['statoDes'],
+                        'tipo': _response['tipoInsDes'],
+                        'data': _response['esito']['dataEsa'],
+                        'lode': _response['esito']['lodeFlg'],
+                        'voto': _response['esito']['voto'],
+                        })
 
 if __name__ == '__main__':
         app.run(ssl_context='adhoc')
