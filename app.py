@@ -168,10 +168,11 @@ class CurrentAA(Resource):
 
         return jsonify({'stato': _response['statoDes'],
                         'tipo': _response['tipoInsDes'],
-                        'data': _response['esito']['dataEsa'].split()[0],
+                        'data': _response['esito']['dataEsa'],
                         'lode': _response['esito']['lodeFlg'],
                         'voto': _response['esito']['voto'],
                         })
+
 
 @api.route('/api/uniparthenope/checkAppello/<token>/<cdsId>/<adId>', methods=['GET'])
 class CurrentAA(Resource):
