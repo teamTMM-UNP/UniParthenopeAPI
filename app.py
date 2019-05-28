@@ -1,11 +1,9 @@
 from flask import Flask, Blueprint, url_for, jsonify, current_app, abort
 from flask_restplus import Api, Resource, reqparse
 from datetime import datetime
-from flask_marshmallow import Marshmallow, base_fields
-from marshmallow import post_dump
-import werkzeug
 import requests
-import re
+import json
+
 import os
 
 app = Flask(__name__)
@@ -116,6 +114,33 @@ class CurrentAA(Resource):
                     else:
                         return jsonify({'curr_sem': _response[i]['des'],
                                         'semestre': "Primo Semestre"})
+
+
+@api.route('/api/uniparthenope/pianoId/<token>/<stuId>', methods=['GET'])
+class CurrentAA(Resource):
+    def get(self, token, stuId):
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+        response = requests.request("GET", url + "piani-service-v1/piani/" + stuId, headers=headers)
+        _response = response.json()
+        pianoId = _response['pianoId']
+        return jsonify({'pianoId': pianoId})
+
+
+@api.route('/api/uniparthenope/totExams/<token>/<stuId>/<pianoId>', methods=['GET'])
+class CurrentAA(Resource):
+    def get(self, token, stuId, pianoId):
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+        response = requests.request("GET", url + "piani-service-v1/piani/" + stuId + "/" + pianoId, headers=headers)
+        _response = response.json()
+
+        for i in range(0, len(_response)):
+            print("MyExam =" + str(_response[i]['adDes']))
 
 
 if __name__ == '__main__':
