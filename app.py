@@ -101,12 +101,10 @@ class CurrentAA(Resource):
 
         for i in range(0, len(_response)):
             if _response[i]['aaSesId'] == max_year:
-                startD = _response[i]['dataInizio'].split()[0]
-                startDate = datetime.strptime(startD, '%d/%m/%Y')
-                endD = _response[i]['dataFine'].split()[0]
-                endDate = datetime.strptime(endD, '%d/%m/%Y')
+                startDate = extractData(_response[i]['dataInizio'])
+                endDate = extractData(_response[i]['dataFine'])
 
-                if (curr_day >= startDate and curr_day <= endDate):
+                if curr_day >= startDate and curr_day <= endDate:
                     curr_sem = _response[i]['des']
                     if (curr_sem == "Sessione Anticipata" or curr_sem == "Sessione Estiva"):
                         return jsonify({'curr_sem': _response[i]['des'],
@@ -157,6 +155,7 @@ class CurrentAA(Resource):
 
         return jsonify(my_exams)
 
+
 @api.route('/api/uniparthenope/checkExam/<token>/<matId>/<examId>', methods=['GET'])
 class CurrentAA(Resource):
     def get(self, token, matId, examId):
@@ -173,6 +172,14 @@ class CurrentAA(Resource):
                         'lode': _response['esito']['lodeFlg'],
                         'voto': _response['esito']['voto'],
                         })
+
+
+def extractData(data):
+    data_split = data.split()[0]
+    export_data = datetime.strptime(data_split, '%d/%m/%Y')
+
+    return export_data
+
 
 if __name__ == '__main__':
         app.run(ssl_context='adhoc')

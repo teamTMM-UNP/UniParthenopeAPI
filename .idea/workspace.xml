@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="98ae8789-f4e0-4366-8fe2-9fb3802ea81d" name="Default Changelist" comment="">
+    <list default="true" id="98ae8789-f4e0-4366-8fe2-9fb3802ea81d" name="Default Changelist" comment="esami e libretto">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="139" column="35" selection-start-line="139" selection-start-column="35" selection-end-line="139" selection-end-column="35" />
+            <state relative-caret-position="380">
+              <caret line="105" column="16" selection-start-line="105" selection-start-column="16" selection-end-line="105" selection-end-column="16" />
               <folding>
                 <element signature="e#0#72#0" expanded="true" />
               </folding>
@@ -120,7 +120,7 @@
       <workItem from="1558954345303" duration="721000" />
       <workItem from="1558958720328" duration="7695000" />
       <workItem from="1558986047142" duration="12345000" />
-      <workItem from="1559031621840" duration="4152000" />
+      <workItem from="1559031621840" duration="11268000" />
     </task>
     <task id="LOCAL-00001" summary="sh file">
       <created>1558958764193</created>
@@ -241,11 +241,25 @@
       <option name="project" value="LOCAL" />
       <updated>1558997961747</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="session">
+      <created>1559038538620</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1559038538620</updated>
+    </task>
+    <task id="LOCAL-00019" summary="esami e libretto">
+      <created>1559043154986</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1559043154986</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24913000" />
+    <option name="totallyTimeSpent" value="32029000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -297,10 +311,11 @@
     <MESSAGE value="libretto api" />
     <MESSAGE value="medie" />
     <MESSAGE value="session" />
-    <option name="LAST_COMMIT_MESSAGE" value="session" />
+    <MESSAGE value="esami e libretto" />
+    <option name="LAST_COMMIT_MESSAGE" value="esami e libretto" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/UniParthenopeAPI_new$UniParthenopeAPI.coverage" NAME="UniParthenopeAPI Coverage Results" MODIFIED="1559038238039" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/UniParthenopeAPI_new$UniParthenopeAPI.coverage" NAME="UniParthenopeAPI Coverage Results" MODIFIED="1559043901325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/UniParthenopeAPI.sh">
@@ -312,8 +327,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="139" column="35" selection-start-line="139" selection-start-column="35" selection-end-line="139" selection-end-column="35" />
+        <state relative-caret-position="380">
+          <caret line="105" column="16" selection-start-line="105" selection-start-column="16" selection-end-line="105" selection-end-column="16" />
           <folding>
             <element signature="e#0#72#0" expanded="true" />
           </folding>
