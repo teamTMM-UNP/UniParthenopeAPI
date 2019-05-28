@@ -166,12 +166,15 @@ class CurrentAA(Resource):
         response = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/righe/" + examId, headers=headers)
         _response = response.json()
 
-        return jsonify({'stato': _response['statoDes'],
-                        'tipo': _response['tipoInsDes'],
-                        'data': _response['esito']['dataEsa'],
-                        'lode': _response['esito']['lodeFlg'],
-                        'voto': _response['esito']['voto'],
-                        })
+        if _response['statusCode'] == 500:
+            print('Errore!')
+        else:
+            return jsonify({'stato': _response['statoDes'],
+                            'tipo': _response['tipoInsDes'],
+                            'data': _response['esito']['dataEsa'],
+                            'lode': _response['esito']['lodeFlg'],
+                            'voto': _response['esito']['voto'],
+                            })
 
 
 @api.route('/api/uniparthenope/checkAppello/<token>/<cdsId>/<adId>', methods=['GET'])
