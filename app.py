@@ -173,10 +173,17 @@ class CurrentAA(Resource):
                             'lode': 0,
                             'voto': "OK",
                             })
-        else:
+        elif _response['statoDes'] == "Superata":
             return jsonify({'stato': _response['statoDes'],
                             'tipo': _response['tipoInsDes'],
                             'data': _response['esito']['dataEsa'].split()[0],
+                            'lode': _response['esito']['lodeFlg'],
+                            'voto': _response['esito']['voto'],
+                            })
+        else:
+            return jsonify({'stato': _response['statoDes'],
+                            'tipo': _response['tipoInsDes'],
+                            'data': _response['esito']['dataEsa'],
                             'lode': _response['esito']['lodeFlg'],
                             'voto': _response['esito']['voto'],
                             })
