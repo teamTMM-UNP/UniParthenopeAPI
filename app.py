@@ -166,8 +166,9 @@ class CurrentAA(Resource):
         response = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/righe/" + examId, headers=headers)
         _response = response.json()
 
-        if _response['statusCode'] == 500:
+        if response.status_code == 500:
             print('Errore!')
+
         else:
             return jsonify({'stato': _response['statoDes'],
                             'tipo': _response['tipoInsDes'],
