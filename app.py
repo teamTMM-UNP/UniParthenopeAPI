@@ -171,7 +171,7 @@ class CurrentAA(Resource):
                             'tipo': "",
                             'data': "",
                             'lode': 0,
-                            'voto': "",
+                            'voto': "OK",
                             })
         else:
             return jsonify({'stato': _response['statoDes'],
