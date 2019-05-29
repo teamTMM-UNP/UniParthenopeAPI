@@ -94,6 +94,11 @@ class CurrentAA(Resource):
         _response = response.json()
 
         curr_day = datetime.today()
+        if curr_day.day <= 15 and curr_day.month >= 9:
+            academic_year = str(curr_day.year) + " - " + str(curr_day.year+1)
+        else:
+            academic_year = str(curr_day.year - 1) + " - " + str(curr_day.year)
+
         max_year = 0
         for i in range(0, len(_response)):
             if _response[i]['aaSesId'] > max_year:
@@ -108,10 +113,13 @@ class CurrentAA(Resource):
                     curr_sem = _response[i]['des']
                     if (curr_sem == "Sessione Anticipata" or curr_sem == "Sessione Estiva"):
                         return jsonify({'curr_sem': _response[i]['des'],
-                                        'semestre': "Secondo Semestre"})
+                                        'semestre': "Secondo Semestre",
+                                        'aa_accad': academic_year
+                                        })
                     else:
                         return jsonify({'curr_sem': _response[i]['des'],
-                                        'semestre': "Primo Semestre"})
+                                        'semestre': "Primo Semestre",
+                                        'aa_accad': academic_year})
 
 
 @api.route('/api/uniparthenope/pianoId/<token>/<stuId>', methods=['GET'])
