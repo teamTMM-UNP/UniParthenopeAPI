@@ -3,6 +3,7 @@ from flask_restplus import Api, Resource, reqparse
 from datetime import datetime
 import requests
 import json
+import  asyncio
 
 import os
 
@@ -274,6 +275,64 @@ class CurrentAA(Resource):
                         'testi': _response[0]['SyllabusAD'][0]['testiRiferimento'],
                         'altro': _response[0]['SyllabusAD'][0]['altreInfo']
                         })
+
+
+@api.route('/api/uniparthenope/examsToFreq/<token>/<stuId>/<pianoId>/<matId>', methods=['GET'])
+class CurrentAA(Resource):
+     def get(self, token, stuId, pianoId, matId):
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+        response = requests.request("GET", url + "piani-service-v1/piani/" + stuId + "/" + pianoId, headers=headers)
+        _response = response.json()
+        my_exams = []
+        for i in range(0, len(_response['attivita'])):
+            if _response['attivita'][i]['sceltaFlg'] == 1:
+                adId = str(_response['attivita'][i]['chiaveADContestualizzata']['adId'])
+                adSceId = _response['attivita'][i]['adsceAttId']
+                response_2 = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/righe/" + str(adSceId), headers=headers)
+                _response2 = response_2.json()
+
+                if response_2.status_code == 500:
+                    print('ERRORE 500')
+
+                elif _response2['statoDes'] != "Superata":
+
+                    response_3 = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/righe/" + str(
+                                                      adSceId)+"/partizioni", headers=headers)
+                    _response3 = response_3.json()
+                    if response_3.status_code == 500 or response_3.status_code == 404:
+                        print('ERRORE 500')
+                    else:
+                        response_4 = requests.request("GET", url + "logistica-service-v1/logistica?adId=" + adId,
+                                                    headers=headers)
+                        _response4 = response_4.json()
+
+                        max_year = 0
+                        if response_4.status_code == 200:
+                            for x in range(0, len(_response4)):
+                                if _response4[x]['chiaveADFisica']['aaOffId'] > max_year:
+                                    max_year = _response4[x]['chiaveADFisica']['aaOffId']
+
+                            for x in range(0, len(_response4)):
+                                if _response4[x]['chiaveADFisica']['aaOffId'] == max_year:
+                                    actual_exam = ({
+                                        'nome': _response['attivita'][i]['adLibDes'],
+                                        'codice': _response['attivita'][i]['adLibCod'],
+                                        'adId': _response['attivita'][i]['chiaveADContestualizzata']['adId'],
+                                        'CFU': _response['attivita'][i]['peso'],
+                                        'annoId': _response['attivita'][i]['scePianoId'],
+                                        'docente': _response3[0]['cognomeDocTit'].capitalize() + " " + _response3[0]['nomeDoctit'].capitalize(),
+                                        'docenteID': _response3[0]['docenteId'],
+                                        'semestre': _response3[0]['partEffCod'],
+                                        'adLogId': _response4[x]['chiavePartizione']['adLogId'],
+                                        'inizio': _response4[x]['dataInizio'].split()[0],
+                                        'fine': _response4[x]['dataFine'].split()[0],
+                                        'ultMod': _response4[x]['dataModLog'].split()[0]
+                                    })
+                                    my_exams.append(actual_exam)
+        return jsonify(my_exams)
 
 
 def extractData(data):
