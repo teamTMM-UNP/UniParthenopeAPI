@@ -240,17 +240,20 @@ class CurrentAA(Resource):
         _response = response.json()
 
         max_year = 0
-        for i in range(0, len(_response)):
-            if _response[i]['chiaveADFisica']['aaOffId'] > max_year:
-                max_year = _response[i]['chiaveADFisica']['aaOffId']
+        if response.status_code == 200:
+            for i in range(0, len(_response)):
+                if _response[i]['chiaveADFisica']['aaOffId'] > max_year:
+                    max_year = _response[i]['chiaveADFisica']['aaOffId']
 
-        for i in range(0, len(_response)):
-            if _response[i]['chiaveADFisica']['aaOffId'] == max_year:
-                return jsonify({'adLogId': _response[i]['chiavePartizione']['adLogId'],
-                                'inizio': _response[i]['dataInizio'].split()[0],
-                                'fine': _response[i]['dataFine'].split()[0],
-                                'ultMod': _response[i]['dataModLog'].split()[0]
-                                })
+            for i in range(0, len(_response)):
+                if _response[i]['chiaveADFisica']['aaOffId'] == max_year:
+                    return jsonify({'adLogId': _response[i]['chiavePartizione']['adLogId'],
+                                    'inizio': _response[i]['dataInizio'].split()[0],
+                                    'fine': _response[i]['dataFine'].split()[0],
+                                    'ultMod': _response[i]['dataModLog'].split()[0]
+                                    })
+        else:
+            return jsonify({'stsErr': "N"})
 
 
 @api.route('/api/uniparthenope/infoCourse/<adLogId>', methods=['GET'])
@@ -262,7 +265,8 @@ class CurrentAA(Resource):
         response = requests.request("GET", url + "logistica-service-v1/logistica/" + adLogId + "/adLogConSyllabus", headers=headers)
         _response = response.json()
 
-        return jsonify({'contenuti': _response[0]['SyllabusAD'][0]['contenuti'],
+        if response.status_code == 200:
+            return jsonify({'contenuti': _response[0]['SyllabusAD'][0]['contenuti'],
                         'metodi': _response[0]['SyllabusAD'][0]['metodiDidattici'],
                         'verifica': _response[0]['SyllabusAD'][0]['modalitaVerificaApprendimento'],
                         'obiettivi': _response[0]['SyllabusAD'][0]['obiettiviFormativi'],
