@@ -1,5 +1,8 @@
 from flask import Flask, Blueprint, url_for, jsonify, current_app, abort
 from flask_restplus import Api, Resource, reqparse
+from config import Config
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from datetime import datetime
 import requests
 
@@ -7,6 +10,11 @@ import os
 
 app = Flask(__name__)
 url = "https://uniparthenope.esse3.cineca.it/e3rest/api/"
+app.config.from_object(Config)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+import models
 
 
 class BaseConfig(object):
@@ -351,6 +359,94 @@ class CurrentAA(Resource):
                                     my_exams.append(actual_exam)
         return jsonify(my_exams)
 
+'''
+AREA RISTORANTI
+'''
+from models import User,Food
+
+
+@api.route('/api/uniparthenope/foods/login/<username>/<password>', methods=['GET', 'POST'])
+class Login(Resource):
+    def get(self, username, password):
+        user = User.query.filter_by(username=username).first()
+        if user is None or not user.check_password(password):
+            return jsonify({"message": "User/Passworda errata!", "code": 500})
+        else:
+            return jsonify({"message": "OK", "code": 200})
+
+import base64
+
+
+@api.route('/api/uniparthenope/foods/register/<username>/<password>/<email>/<nomeLocale>/<pwd_admin>', methods=['POST'])
+class Login(Resource):
+    def post(self, username, password, email, nomeLocale, pwd_admin):
+        if pwd_admin == "besteming":
+            usern = User.query.filter_by(username=username).first()
+            if usern is None:
+                token_start = username+":"+password
+                token = base64.b64encode(bytes(token_start, 'utf-8'))
+                user = User(username=username, email=email, token=token, nome_bar=nomeLocale)
+
+                user.set_password(password)
+                db.session.add(user)
+                db.session.commit()
+                return jsonify({"code": 200, "message": "OK"})
+            else:
+                return error_response(500, "User already exists!")
+        else:
+            return error_response(500, "You are not admin!")
+
+
+from flask import request
+@api.route('/api/uniparthenope/foods/addMenu/<username>', methods=['POST'])
+class Login(Resource):
+    def post(self, username):
+        content = request.json
+
+        usern = User.query.filter_by(username=username).first()
+        if usern is not None:
+            nome_bar = usern.nome_bar
+
+            print(nome_bar)
+            primo = content['primo']
+            secondo = content['secondo']
+            contorno = content['contorno']
+            altro = content['altro']
+            menu = Food(primo_piatto=primo, secondo_piatto=secondo, contorno=contorno, altro=altro, nome_food=nome_bar)
+            db.session.add(menu)
+            db.session.commit()
+            return jsonify({"code": 200, "menu_code": menu.id})
+        else:
+            return error_response(500, "You are not admin!")
+
+
+@api.route('/api/uniparthenope/foods/menuSearchData/<data>', methods=['GET'])
+class Login(Resource):
+    def get(self, data):
+
+        array = []
+        day = data[0:2]
+        month = data[2:4]
+        year = data[4:8]
+
+        foods = Food.query.all()
+        for f in foods:
+            if str(f.data.year) == year and str('{:02d}'.format(f.data.month)) == month and str('{:02d}'.format(f.data.day)) == day:
+                menu = ({'nome': f.nome_food,
+                         'primo': f.primo_piatto,
+                         'secondo': f.secondo_piatto,
+                         'contorno': f.contorno,
+                         'altro': f.altro,
+                         'apertura': f.orario_apertura})
+                array.append(menu)
+
+        return jsonify(array)
+
+
+'''
+FINE AREA RISTORANTI
+'''
+
 
 def extractData(data):
     data_split = data.split()[0]
@@ -359,6 +455,18 @@ def extractData(data):
     return export_data
 
 
+from werkzeug.http import HTTP_STATUS_CODES
+
+
+def error_response(status_code, message=None):
+    payload = {'error': HTTP_STATUS_CODES.get(status_code, 'Unknown error')}
+    if message:
+        payload['message'] = message
+    response = jsonify(payload)
+    response.status_code = status_code
+    return response
+
+
 if __name__ == '__main__':
-        app.run(ssl_context='adhoc')
+    app.run(ssl_context='adhoc')
 
