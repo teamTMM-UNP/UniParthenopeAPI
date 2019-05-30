@@ -384,7 +384,7 @@ class Login(Resource):
             usern = User.query.filter_by(username=username).first()
             if usern is None:
                 token_start = username+":"+password
-                token = base64.b64encode(bytes(token_start, 'utf-8'))
+                token = base64.b64encode(bytes(str(token_start).encode("utf-8")))
                 user = User(username=username, email=email, token=token, nome_bar=nomeLocale)
 
                 user.set_password(password)
