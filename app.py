@@ -44,6 +44,7 @@ class Login(Resource):
             'Content-Type': "application/json",
             "Authorization": "Basic " + token
         }
+        ##TODO se response 401 connettersi Ristorante
         response = requests.request("GET", url+"login", headers=headers)
         
         return jsonify({'response': response.json()})
