@@ -2,8 +2,6 @@ from flask import Flask, Blueprint, url_for, jsonify, current_app, abort
 from flask_restplus import Api, Resource, reqparse
 from datetime import datetime
 import requests
-import json
-import  asyncio
 
 import os
 
@@ -275,6 +273,25 @@ class CurrentAA(Resource):
                         'testi': _response[0]['SyllabusAD'][0]['testiRiferimento'],
                         'altro': _response[0]['SyllabusAD'][0]['altreInfo']
                         })
+
+@api.route('/api/uniparthenope/segreteria', methods=['GET'])
+class CurrentAA(Resource):
+    def get(self):
+        studenti = [{'giorno': "LUN", 'orario_inzio': "09:00", 'orario_fine': "12:00"},
+                     {'giorno': "MER", 'orario_inzio': "09:00", 'orario_fine': "12:00"},
+                     {'giorno': "MAR", 'orario_inzio': "09:00 - 12:30", 'orario_fine': "14:00 - 15.30"},
+                     {'giorno': "GIO", 'orario_inzio': "09:00 - 12:30", 'orario_fine': "14:00 - 15.30"},
+                     {'giorno': "VEN", 'orario_inzio': "09:00", 'orario_fine': "12:00"}]
+
+        didattica = [{'giorno': "LUN", 'orario_inzio': "10:00", 'orario_fine': "13:00"},
+                     {'giorno': "MER", 'orario_inzio': "10:00", 'orario_fine': "13:00"},
+                     {'giorno': "VEN", 'orario_inzio': "10:00", 'orario_fine': "13:00"},
+                     {'giorno': "MAR", 'orario_inzio': "0", 'orario_fine': "0"},
+                     {'giorno': "GIO", 'orario_inzio': "0", 'orario_fine': "0"}
+                     ]
+
+        return jsonify({'didattica': didattica,
+                        'studenti': studenti})
 
 
 @api.route('/api/uniparthenope/examsToFreq/<token>/<stuId>/<pianoId>/<matId>', methods=['GET'])
