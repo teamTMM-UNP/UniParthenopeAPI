@@ -364,7 +364,7 @@ AREA RISTORANTI
 '''
 from models import User,Food
 
-
+##TODO inserire token
 @api.route('/api/uniparthenope/foods/login/<username>/<password>', methods=['GET', 'POST'])
 class Login(Resource):
     def get(self, username, password):
@@ -396,7 +396,7 @@ class Login(Resource):
         else:
             return error_response(500, "You are not admin!")
 
-
+##TODO inserire token
 from flask import request
 @api.route('/api/uniparthenope/foods/addMenu/<username>', methods=['POST'])
 class Login(Resource):
