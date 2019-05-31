@@ -50,17 +50,12 @@ class Login(Resource):
         if response.status_code == 401:
             tok = User.query.filter_by(token=token).first()
             if tok is None:
-                print('male tutti')
-                _response = json.load(response)
-                _response['statusCode'] = 500
-                return jsonify({'response':_response.json()})
+                return jsonify({'statusCode': 401})
             else:
-                print('ok Cameriere')
-                _response = response.json()
-                _response.put('statusCode', 600)
-                return jsonify({'response':_response})
+
+                return jsonify({'statusCode': 600})
         else:
-            print('ok studente')
+
             return jsonify({'response': response.json()})
 
 
