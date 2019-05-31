@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 import requests
+import json
 
 import os
 
@@ -45,13 +46,21 @@ class Login(Resource):
             "Authorization": "Basic " + token
         }
         response = requests.request("GET", url+"login", headers=headers)
-        if requests.status_codes == 401:
+        print(str(response.status_code))
+        if response.status_code == 401:
             tok = User.query.filter_by(token=token).first()
             if tok is None:
-                return jsonify({"message": "User/Passworda errata!", "code": 500})
+                print('male tutti')
+                _response = json.load(response)
+                _response['statusCode'] = 500
+                return jsonify({'response':_response.json()})
             else:
-                return jsonify({"message": "OK", "statusCode": 600})
+                print('ok Cameriere')
+                _response = response.json()
+                _response.put('statusCode', 600)
+                return jsonify({'response':_response})
         else:
+            print('ok studente')
             return jsonify({'response': response.json()})
 
 
@@ -61,7 +70,8 @@ class TotalExams(Resource):
         headers = {
             'Content-Type': "application/json",
             "Authorization": "Basic " + token
-        }
+        
+            }
         response = requests.request("GET", url + "libretto-service-v1/libretti/" + matId + "/stats", headers=headers)
         _response = response.json()
         totAdSuperate = _response['numAdSuperate'] + _response['numAdFrequentate']
@@ -106,7 +116,9 @@ class CurrentAA(Resource):
         response = requests.request("GET", url + "calesa-service-v1/sessioni?cdsId=" + cdsId, headers=headers)
         _response = response.json()
 
-        curr_day = datetime.today()
+        date = datetime.today()
+        curr_day = datetime(date.year, date.month, date.day)
+
         if curr_day.day <= 15 and curr_day.month >= 9:
             academic_year = str(curr_day.year) + " - " + str(curr_day.year+1)
         else:
@@ -121,8 +133,12 @@ class CurrentAA(Resource):
             if _response[i]['aaSesId'] == max_year:
                 startDate = extractData(_response[i]['dataInizio'])
                 endDate = extractData(_response[i]['dataFine'])
+                
+                print("Inizio: " + str(startDate))
+                print("Fine: " + str(endDate))
+                print("Oggi: " + str(curr_day))
 
-                if curr_day >= startDate and curr_day <= endDate:
+                if (curr_day >= startDate and curr_day <= endDate):
                     curr_sem = _response[i]['des']
                     if (curr_sem == "Sessione Anticipata" or curr_sem == "Sessione Estiva"):
                         return jsonify({'curr_sem': _response[i]['des'],
