@@ -46,16 +46,16 @@ class Login(Resource):
             "Authorization": "Basic " + token
         }
         response = requests.request("GET", url+"login", headers=headers)
-        print(str(response.status_code))
         if response.status_code == 401:
             tok = User.query.filter_by(token=token).first()
             if tok is None:
-                return jsonify({'statusCode': 401})
+                print('Auth Failed')
+                return jsonify({'statusCode': 401, 'errMsg':"Invalid Username or Password!"})
             else:
-
+                print('Auth Bar')
                 return jsonify({'statusCode': 600})
         else:
-
+            print('Auth Stu/Doc')
             return jsonify({'response': response.json()})
 
 
