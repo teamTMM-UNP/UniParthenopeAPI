@@ -44,10 +44,15 @@ class Login(Resource):
             'Content-Type': "application/json",
             "Authorization": "Basic " + token
         }
-        ##TODO se response 401 connettersi Ristorante
         response = requests.request("GET", url+"login", headers=headers)
-        
-        return jsonify({'response': response.json()})
+        if requests.status_codes == 401:
+            tok = User.query.filter_by(token=token).first()
+            if tok is None:
+                return jsonify({"message": "User/Passworda errata!", "code": 500})
+            else:
+                return jsonify({"message": "OK", "statusCode": 600})
+        else:
+            return jsonify({'response': response.json()})
 
 
 @api.route('/api/uniparthenope/totalexams/<token>/<matId>', methods=['GET'])
