@@ -50,10 +50,10 @@ class Login(Resource):
             tok = User.query.filter_by(token=token).first()
             if tok is None:
                 print('Auth Failed')
-                return jsonify({'statusCode': 401, 'errMsg':"Invalid Username or Password!"})
+                return jsonify({'statusCode': 401, 'errMsg': "Invalid Username or Password!"})
             else:
-                print('Auth Bar')
-                return jsonify({'statusCode': 600})
+                print('Auth UserTecnico')
+                return jsonify({'statusCode': 600, 'username': tok.nome_bar})
         else:
             print('Auth Stu/Doc')
             return jsonify({'response': response.json()})
