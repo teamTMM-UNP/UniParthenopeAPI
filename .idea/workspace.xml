@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="98ae8789-f4e0-4366-8fe2-9fb3802ea81d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1587">
-              <caret line="502" column="28" selection-start-line="502" selection-start-column="28" selection-end-line="502" selection-end-column="28" />
+            <state relative-caret-position="-79">
+              <caret line="416" column="2" selection-start-line="416" selection-start-column="2" selection-end-line="416" selection-end-column="2" />
               <folding>
                 <element signature="e#0#72#0" expanded="true" />
               </folding>
@@ -42,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="31" column="13" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="13" />
+            <state relative-caret-position="391">
+              <caret line="29" column="19" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="19" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -163,7 +162,7 @@
       <workItem from="1559246328029" duration="1393000" />
       <workItem from="1559294270765" duration="3808000" />
       <workItem from="1559320411420" duration="3514000" />
-      <workItem from="1559379123010" duration="1999000" />
+      <workItem from="1559379123010" duration="2177000" />
     </task>
     <task id="LOCAL-00001" summary="sh file">
       <created>1558958764193</created>
@@ -438,11 +437,18 @@
       <option name="project" value="LOCAL" />
       <updated>1559325229949</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="inserimento menu">
+      <created>1559385743478</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1559385743478</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76470000" />
+    <option name="totallyTimeSpent" value="76648000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -454,15 +460,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="183" width="1400" height="1000" extended-state="0" />
+    <frame x="101" y="115" width="1400" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15373135" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15373135" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3298731" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3298731" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3298731" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -526,7 +532,8 @@
     <MESSAGE value="databaseRistoranti" />
     <MESSAGE value="codifica64" />
     <MESSAGE value="login new" />
-    <option name="LAST_COMMIT_MESSAGE" value="login new" />
+    <MESSAGE value="inserimento menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="inserimento menu" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/UniParthenopeAPI_new$UniParthenopeAPI.coverage" NAME="UniParthenopeAPI Coverage Results" MODIFIED="1559380523787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
@@ -548,8 +555,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="13" />
+        <state relative-caret-position="391">
+          <caret line="29" column="19" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="19" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -558,8 +565,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1587">
-          <caret line="502" column="28" selection-start-line="502" selection-start-column="28" selection-end-line="502" selection-end-column="28" />
+        <state relative-caret-position="-79">
+          <caret line="416" column="2" selection-start-line="416" selection-start-column="2" selection-end-line="416" selection-end-column="2" />
           <folding>
             <element signature="e#0#72#0" expanded="true" />
           </folding>
