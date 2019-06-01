@@ -413,14 +413,15 @@ class Login(Resource):
         else:
             return error_response(500, "You are not admin!")
 
+
 ##TODO inserire token
 from flask import request
-@api.route('/api/uniparthenope/foods/addMenu/<username>', methods=['POST'])
+@api.route('/api/uniparthenope/foods/addMenu/<token>/<data>', methods=['POST'])
 class Login(Resource):
-    def post(self, username):
+    def post(self, token, data):
         content = request.json
 
-        usern = User.query.filter_by(username=username).first()
+        usern = User.query.filter_by(token=token).first()
         if usern is not None:
             nome_bar = usern.nome_bar
 
@@ -429,7 +430,7 @@ class Login(Resource):
             secondo = content['secondo']
             contorno = content['contorno']
             altro = content['altro']
-            menu = Food(primo_piatto=primo, secondo_piatto=secondo, contorno=contorno, altro=altro, nome_food=nome_bar)
+            menu = Food(primo_piatto=primo, secondo_piatto=secondo, contorno=contorno, altro=altro, nome_food=nome_bar, orario_apertura=data)
             db.session.add(menu)
             db.session.commit()
             return jsonify({"code": 200, "menu_code": menu.id})
@@ -455,6 +456,52 @@ class Login(Resource):
                          'contorno': f.contorno,
                          'altro': f.altro,
                          'apertura': f.orario_apertura})
+                array.append(menu)
+
+        return jsonify(array)
+
+@api.route('/api/uniparthenope/foods/menuSearchUser_Today/<nome_bar>', methods=['GET'])
+class Login(Resource):
+    def get(self, nome_bar):
+
+        array = []
+        today = datetime.today()
+
+        foods = Food.query.all()
+        for f in foods:
+            if f.data.year == today.year \
+                    and f.data.month == today.month \
+                    and f.data.day == today.day\
+                    and nome_bar == f.nome_food:
+
+                menu = ({'nome': f.nome_food,
+                         'primo': f.primo_piatto,
+                         'secondo': f.secondo_piatto,
+                         'contorno': f.contorno,
+                         'altro': f.altro,
+                         'apertura': f.orario_apertura})
+                array.append(menu)
+
+        return jsonify(array)
+
+@api.route('/api/uniparthenope/foods/menuSearchUser/<nome_bar>', methods=['GET'])
+class Login(Resource):
+    def get(self, nome_bar):
+
+        array = []
+
+        foods = Food.query.all()
+        for f in foods:
+            if nome_bar == f.nome_food:
+
+                menu = ({'data': f.data,
+                        'nome': f.nome_food,
+                        'primo': f.primo_piatto,
+                        'secondo': f.secondo_piatto,
+                        'contorno': f.contorno,
+                        'altro': f.altro,
+                        'apertura': str(f.orario_apertura)
+                            })
                 array.append(menu)
 
         return jsonify(array)
