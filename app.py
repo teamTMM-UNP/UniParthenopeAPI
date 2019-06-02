@@ -420,8 +420,9 @@ from flask import request
 @api.route('/api/uniparthenope/foods/addMenu/<token>/<data>', methods=['POST'])
 class Login(Resource):
     def post(self, token, data):
+        print('isJson= '+str(request.is_json))
         content = request.json
-
+        print(request.get_json())
         usern = User.query.filter_by(token=token).first()
         if usern is not None:
             nome_bar = usern.nome_bar
