@@ -299,24 +299,95 @@ class CurrentAA(Resource):
                         'altro': _response[0]['SyllabusAD'][0]['altreInfo']
                         })
 
+
 @api.route('/api/uniparthenope/segreteria', methods=['GET'])
 class CurrentAA(Resource):
     def get(self):
-        studenti = [{'giorno': "LUN", 'orario_inzio': "09:00", 'orario_fine': "12:00"},
-                     {'giorno': "MER", 'orario_inzio': "09:00", 'orario_fine': "12:00"},
-                     {'giorno': "MAR", 'orario_inzio': "09:00 - 12:30", 'orario_fine': "14:00 - 15.30"},
-                     {'giorno': "GIO", 'orario_inzio': "09:00 - 12:30", 'orario_fine': "14:00 - 15.30"},
-                     {'giorno': "VEN", 'orario_inzio': "09:00", 'orario_fine': "12:00"}]
+        studenti = [{'giorno': "LUN", 'orario_inizio': "09:00", 'orario_fine': "12:00"},
+                    {'giorno': "MAR", 'orario_inizio': "09:00 - 12:30", 'orario_fine': "14:00 - 15.30"},
+                    {'giorno': "MER", 'orario_inizio': "09:00", 'orario_fine': "12:00"},
+                    {'giorno': "GIO", 'orario_inizio': "09:00 - 12:30", 'orario_fine': "14:00 - 15.30"},
+                    {'giorno': "VEN", 'orario_inizio': "09:00", 'orario_fine': "12:00"}]
 
-        didattica = [{'giorno': "LUN", 'orario_inzio': "10:00", 'orario_fine': "13:00"},
-                     {'giorno': "MER", 'orario_inzio': "10:00", 'orario_fine': "13:00"},
-                     {'giorno': "VEN", 'orario_inzio': "10:00", 'orario_fine': "13:00"},
-                     {'giorno': "MAR", 'orario_inzio': "0", 'orario_fine': "0"},
-                     {'giorno': "GIO", 'orario_inzio': "0", 'orario_fine': "0"}
+        didattica = [{'giorno': "LUN", 'orario_inizio': "10:00", 'orario_fine': "13:00"},
+                     {'giorno': "MAR", 'orario_inizio': "0", 'orario_fine': "0"},
+                     {'giorno': "MER", 'orario_inizio': "10:00", 'orario_fine': "13:00"},
+                     {'giorno': "GIO", 'orario_inizio': "0", 'orario_fine': "0"},
+                     {'giorno': "VEN", 'orario_inizio': "10:00", 'orario_fine': "13:00"}
                      ]
+        settimana = ["LUN", "MAR", "MER", "GIO", "VEN"]
+        today = datetime.today()
+        oc_studenti = "CHIUSO"
+        oc_didattica = "CHIUSO"
+
+        for i in range(0, len(studenti)):
+            if today.weekday() == settimana.index(studenti[i]['giorno']) and studenti[i]['orario_inizio'] != "0":
+                if len(studenti[i]['orario_inizio']) == 5:
+                    inizio_h = int(studenti[i]['orario_inizio'][0:2])
+                    inizio_m = int(studenti[i]['orario_inizio'][3:5])
+                    fine_h = int(studenti[i]['orario_fine'][0:2])
+                    fine_m = int(studenti[i]['orario_fine'][3:5])
+                    print(str(fine_h) +":" + str(fine_m)+ "=" + str(today.hour)+ ":"+ str(today.minute))
+                    if inizio_h <= today.hour <= fine_h or ((fine_h == today.hour or inizio_h == today.hour) and
+                        inizio_m <= today.minute <= fine_m):
+                        oc_studenti = "APERTA"
+                        print('APERTA1')
+                    else:
+                        print('CHIUSA1')
+                else:
+                    inizio_h = int(studenti[i]['orario_inizio'][0:2])
+                    inizio_m = int(studenti[i]['orario_inizio'][3:5])
+                    fine_h = int(studenti[i]['orario_inizio'][8:10])
+                    fine_m = int(studenti[i]['orario_inizio'][11:13])
+
+                    inizio2_h = int(studenti[i]['orario_fine'][0:2])
+                    inizio2_m = int(studenti[i]['orario_fine'][3:5])
+                    fine2_h = int(studenti[i]['orario_fine'][8:10])
+                    fine2_m = int(studenti[i]['orario_fine'][11:13])
+                    print(str(fine2_h) + ":" + str(fine2_m) + "=" + str(today.hour) + ":" + str(today.minute))
+
+                    if (inizio_h <= today.hour <= fine_h or ((fine_h == today.hour or inizio_h == today.hour) and
+                        inizio_m <= today.minute <= fine_m))  or \
+                            (inizio2_h <= today.hour <= fine2_h or ((fine2_h == today.hour or inizio2_h == today.hour) and
+                        inizio2_m <= today.minute <= fine2_m)):
+                        oc_studenti = "APERTA"
+
+        for i in range(0, len(didattica)):
+            if today.weekday() == settimana.index(didattica[i]['giorno']) and didattica[i]['orario_inizio'] != "0":
+                if len(didattica[i]['orario_inizio']) == 5:
+                    inizio_h = int(didattica[i]['orario_inizio'][0:2])
+                    inizio_m = int(didattica[i]['orario_inizio'][3:5])
+                    fine_h = int(didattica[i]['orario_fine'][0:2])
+                    fine_m = int(didattica[i]['orario_fine'][3:5])
+                    print(str(fine_h) +":" + str(fine_m)+ "=" + str(today.hour)+ ":"+ str(today.minute))
+                    if inizio_h <= today.hour <= fine_h or ((fine_h == today.hour or inizio_h == today.hour) and
+                        inizio_m <= today.minute <= fine_m):
+                        oc_didattica = "APERTA"
+                        print('APERTA1')
+                    else:
+                        print('CHIUSA1')
+                else:
+                    inizio_h = int(didattica[i]['orario_inizio'][0:2])
+                    inizio_m = int(didattica[i]['orario_inizio'][3:5])
+                    fine_h = int(didattica[i]['orario_inizio'][8:10])
+                    fine_m = int(didattica[i]['orario_inizio'][11:13])
+
+                    inizio2_h = int(didattica[i]['orario_fine'][0:2])
+                    inizio2_m = int(didattica[i]['orario_fine'][3:5])
+                    fine2_h = int(didattica[i]['orario_fine'][8:10])
+                    fine2_m = int(didattica[i]['orario_fine'][11:13])
+                    print(str(fine2_h) + ":" + str(fine2_m) + "=" + str(today.hour) + ":" + str(today.minute))
+
+                    if (inizio_h <= today.hour <= fine_h or ((fine_h == today.hour or inizio_h == today.hour) and
+                        inizio_m <= today.minute <= fine_m))  or \
+                            (inizio2_h <= today.hour <= fine2_h or ((fine2_h == today.hour or inizio2_h == today.hour) and
+                        inizio2_m <= today.minute <= fine2_m)):
+                        oc_didattica = "APERTA"
 
         return jsonify({'didattica': didattica,
-                        'studenti': studenti})
+                        'orario_didattica': oc_didattica,
+                        'studenti': studenti,
+                        'orario_studenti': oc_studenti})
 
 
 @api.route('/api/uniparthenope/examsToFreq/<token>/<stuId>/<pianoId>/<matId>', methods=['GET'])
