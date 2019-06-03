@@ -300,6 +300,7 @@ class CurrentAA(Resource):
                         })
 
 
+from dateutil import tz
 @api.route('/api/uniparthenope/segreteria', methods=['GET'])
 class CurrentAA(Resource):
     def get(self):
@@ -316,7 +317,9 @@ class CurrentAA(Resource):
                      {'giorno': "VEN", 'orario_inizio': "10:00", 'orario_fine': "13:00"}
                      ]
         settimana = ["LUN", "MAR", "MER", "GIO", "VEN"]
-        today = datetime.today()
+        to_zone = tz.tzlocal()
+        _today = datetime.today()
+        today = _today.astimezone(to_zone)
         oc_studenti = "CHIUSO"
         oc_didattica = "CHIUSO"
 
