@@ -317,8 +317,10 @@ class CurrentAA(Resource):
                      {'giorno': "VEN", 'orario_inizio': "10:00", 'orario_fine': "13:00"}
                      ]
         settimana = ["LUN", "MAR", "MER", "GIO", "VEN"]
-        to_zone = tz.tzlocal()
+        to_zone = tz.gettz('Europe/Rome')
+        from_zone = tz.gettz('UTC')
         _today = datetime.today()
+        _today = _today.replace(tzinfo=from_zone)
         today = _today.astimezone(to_zone)
         oc_studenti = "CHIUSO"
         oc_didattica = "CHIUSO"
