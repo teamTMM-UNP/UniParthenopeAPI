@@ -571,7 +571,7 @@ class Login(Resource):
         foods = Food.query.all()
         for f in foods:
             if nome_bar == f.nome_food:
-                d = str(f.data.day)+ "/"+str(f.data.month)+"/"+str(f.data.year)
+                d = f.data.strftime('%Y-%m-%d %H:%M')
 
                 menu = ({'data': d,
                         'nome': f.nome_food,
@@ -610,14 +610,14 @@ class Login(Resource):
                 '&to_year=' + str(end_date.year) + \
                 '&areamatch=Centro+Direzionale&roommatch=&typematch%5B%5D=' + nome_studio + \
                 '&namematch=&descrmatch=&creatormatch=&match_private=0&match_confirmed=1&match_referente=&match_unita_interne=&match_ore_unita_interne=&match_unita_vigilanza=&match_ore_unita_vigilanza=&match_unita_pulizie=&match_ore_unita_pulizie=&match_audio_video=&match_catering=&match_Acconto=&match_Saldo=&match_Fattura=&output=0&output_format=1&sortby=s&sumby=d&phase=2&datatable=1'
-        url_open = urllib.request.urlopen(url)
+        url_open = urllib.request.urlopen(url_n)
         csvfile = csv.reader(io.StringIO(url_open.read().decode('utf-16')), delimiter=',') 
-        print(csvfile)
+
         array = []
         for row in csvfile:
             index = 0
             prof = 0
-            print(row[2])
+        
             for w in row:
                 if (w.find(nome_prof)) != -1:
                     print(row[0])
@@ -652,7 +652,7 @@ def createDate(data):
             giorno = int(data[3])
             mese = mesi.index(data[4]) + 1
 
-            final_data = datetime.datetime(anno, mese, giorno, ora, minuti)
+            final_data = datetime(anno, mese, giorno, ora, minuti)
             return final_data
 '''
 FINE AREA ORARI ga.uniparthenope.it
