@@ -571,8 +571,9 @@ class Login(Resource):
         foods = Food.query.all()
         for f in foods:
             if nome_bar == f.nome_food:
+                d = str(f.data.day)+ "/"+str(f.data.month)+"/"+str(f.data.year)
 
-                menu = ({'data': f.data,
+                menu = ({'data': d,
                         'nome': f.nome_food,
                         'primo': f.primo_piatto,
                         'secondo': f.secondo_piatto,
@@ -595,9 +596,7 @@ AREA ORARI ga.uniparthenope.it
 import csv
 import urllib.request
 import io
-import codecs
-from contextlib import closing
-from yelp_uri.encoding import recode_uri
+
 @api.route('/api/uniparthenope/orari/cercaCorso/<nome_corso>/<nome_prof>/<nome_studio>/<periodo>', methods=['GET'])
 class Login(Resource):
     def get(self, nome_corso, nome_prof, nome_studio, periodo):
