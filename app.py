@@ -3,7 +3,7 @@ from flask_restplus import Api, Resource, reqparse
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 import json
 
@@ -595,29 +595,30 @@ AREA ORARI ga.uniparthenope.it
 import csv
 import urllib.request
 import io
-import datetime
-
+import codecs
+from contextlib import closing
+from yelp_uri.encoding import recode_uri
 @api.route('/api/uniparthenope/orari/cercaCorso/<nome_corso>/<nome_prof>/<nome_studio>/<periodo>', methods=['GET'])
 class Login(Resource):
     def get(self, nome_corso, nome_prof, nome_studio, periodo):
-        end_date = datetime.datetime.now() + datetime.timedelta(days=int(periodo)*365/12)
+        end_date = datetime.now() + timedelta(days=int(periodo)*365/12)
 
-        url_n = 'http://ga.uniparthenope.it/report.php?from_day=' + str(datetime.datetime.now().day) + \
-                '&from_month=' + str(datetime.datetime.now().month) + \
-                '&from_year=' + str(datetime.datetime.now().year) + \
+        url_n = 'http://ga.uniparthenope.it/report.php?from_day=' + str(datetime.now().day) + \
+                '&from_month=' + str(datetime.now().month) + \
+                '&from_year=' + str(datetime.now().year) + \
                 '&to_day=' + str(end_date.day) + \
                 '&to_month=' + str(end_date.month) + \
                 '&to_year=' + str(end_date.year) + \
                 '&areamatch=Centro+Direzionale&roommatch=&typematch%5B%5D=' + nome_studio + \
                 '&namematch=&descrmatch=&creatormatch=&match_private=0&match_confirmed=1&match_referente=&match_unita_interne=&match_ore_unita_interne=&match_unita_vigilanza=&match_ore_unita_vigilanza=&match_unita_pulizie=&match_ore_unita_pulizie=&match_audio_video=&match_catering=&match_Acconto=&match_Saldo=&match_Fattura=&output=0&output_format=1&sortby=s&sumby=d&phase=2&datatable=1'
-        url_open = urllib.request.urlopen(url_n)
-        csvfile = csv.reader(io.StringIO(url_open.read().decode('utf-16')), delimiter=',')
-
-        print(nome_corso)
+        url_open = urllib.request.urlopen(url)
+        csvfile = csv.reader(io.StringIO(url_open.read().decode('utf-16')), delimiter=',') 
+        print(csvfile)
         array = []
         for row in csvfile:
             index = 0
             prof = 0
+            print(row[2])
             for w in row:
                 if (w.find(nome_prof)) != -1:
                     print(row[0])
