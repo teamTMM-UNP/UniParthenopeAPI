@@ -562,6 +562,7 @@ class Login(Resource):
 
         return jsonify(array)
 
+
 @api.route('/api/uniparthenope/foods/menuSearchUser/<nome_bar>', methods=['GET'])
 class Login(Resource):
     def get(self, nome_bar):
@@ -639,6 +640,40 @@ class Login(Resource):
         if array:
             print(array)
             return jsonify(array)
+
+
+@api.route('/api/uniparthenope/orari/altriCorsi/<periodo>', methods=['GET'])
+class Login(Resource):
+    def get(self, periodo):
+        end_date = datetime.now() + timedelta(days=int(periodo) * 365 / 12)
+
+        url_n = 'http://ga.uniparthenope.it/report.php?from_day=' + str(datetime.now().day) + \
+                '&from_month=' + str(datetime.now().month) + \
+                '&from_year=' + str(datetime.now().year) + \
+                '&to_day=' + str(end_date.day) + \
+                '&to_month=' + str(end_date.month) + \
+                '&to_year=' + str(end_date.year) + \
+                '&areamatch=Centro+Direzionale&roommatch=&typematch%5B%5D=O&typematch%5B%5D=Y&typematch%5B%5D=Z&typematch%5B%5D=a&typematch%5B%5D=b&typematch%5B%5D=c&typematch%5B%5D=s&typematch%5B%5D=t' + \
+                '&namematch=&descrmatch=&creatormatch=&match_private=0&match_confirmed=1&match_referente=&match_unita_interne=&match_ore_unita_interne=&match_unita_vigilanza=&match_ore_unita_vigilanza=&match_unita_pulizie=&match_ore_unita_pulizie=&match_audio_video=&match_catering=&match_Acconto=&match_Saldo=&match_Fattura=&output=0&output_format=1&sortby=s&sumby=d&phase=2&datatable=1'
+        url_open = urllib.request.urlopen(url_n)
+        csvfile = csv.reader(io.StringIO(url_open.read().decode('utf-16')), delimiter=',')
+
+        array = []
+        next(csvfile)
+        for row in csvfile:
+            print(row[0])
+            item = ({
+                'titolo' : row[0],
+                'aula': row[2],
+                'start_time': createDate(row[3]),
+                'end_time': createDate(row[4]),
+                'durata': row[5],
+                'descrizione': row[6],
+                'confermato': row[9]
+            })
+            array.append(item)
+
+        return array
 
 
 def createDate(data):
