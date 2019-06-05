@@ -646,13 +646,14 @@ def createDate(data):
                     "ottobre", "novembre", "dicembre"]
             data = data.split()
             ##print(data)
-            ora = int(data[0][0:2])
-            minuti = int(data[0][3:5])
-            anno = int(data[5])
-            giorno = int(data[3])
+            ora = data[0][0:2]
+            minuti = data[0][3:5]
+            anno = data[5]
+            giorno = data[3]
             mese = mesi.index(data[4]) + 1
 
-            final_data = datetime(anno, mese, giorno, ora, minuti)
+            ##final_data = datetime(anno, mese, giorno, ora, minuti)
+            final_data = str(anno) + "/" + str(mese) + "/" + str(giorno) + " " + str(ora) + ":" + str(minuti)
             return final_data
 '''
 FINE AREA ORARI ga.uniparthenope.it
