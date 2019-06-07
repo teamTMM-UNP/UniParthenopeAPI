@@ -666,7 +666,7 @@ class Login(Resource):
             else:
                 id= row[7]
             item = ({
-                'titolo' : row[0],
+                'titolo': row[0],
                 'aula': row[2],
                 'start_time': createDate(row[3]),
                 'end_time': createDate(row[4]),
