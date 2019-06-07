@@ -621,7 +621,6 @@ class Login(Resource):
         
             for w in row:
                 if (w.find(nome_prof)) != -1:
-                    print(row[0])
                     prof = index
                 index += 1
 
@@ -661,7 +660,11 @@ class Login(Resource):
         array = []
         next(csvfile)
         for row in csvfile:
-            print(row[0])
+            lower = row[6].lower()
+            if lower.find("manutenzione") != -1:
+                id = "M"
+            else:
+                id= row[7]
             item = ({
                 'titolo' : row[0],
                 'aula': row[2],
@@ -669,6 +672,7 @@ class Login(Resource):
                 'end_time': createDate(row[4]),
                 'durata': row[5],
                 'descrizione': row[6],
+                'id': id,
                 'confermato': row[9]
             })
             array.append(item)
@@ -698,6 +702,22 @@ def extractData(data):
     export_data = datetime.strptime(data_split, '%d/%m/%Y')
 
     return export_data
+
+
+'''
+ANM
+'''
+from bs4 import BeautifulSoup
+@api.route('/api/uniparthenope/anm', methods=['GET'])
+class Login(Resource):
+    def get(self):
+        url = "http://www.anm.it/infoclick/infoclick.php"
+        page = urllib.request.urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
+        key = soup.find('script').text
+        print(key.split("'")[1])
+
+
 
 
 from werkzeug.http import HTTP_STATUS_CODES
