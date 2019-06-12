@@ -254,6 +254,27 @@ class CurrentAA(Resource):
         return jsonify(my_exams)
 
 
+@api.route('/api/uniparthenope/checkPrenotazione/<token>/<cdsId>/<adId>/<appId>/<stuId>', methods=['GET'])
+class CurrentAA(Resource):
+    def get(self, token, cdsId, adId, appId, stuId):
+        headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Basic " + token
+        }
+        response = requests.request("GET", url + "calesa-service-v1/appelli/" + cdsId + "/" + adId + "/" + appId + "/iscritti/" + stuId, headers=headers)
+        _response = response.json()
+
+        if response.status_code == 200:
+            if _response['esito']['assenteFlg'] != 1:
+
+                return jsonify({'prenotato': True,
+                            'data': _response['dataIns']})
+            else:
+                return jsonify({'prenotato': False})
+        else:
+            return jsonify({'prenotato': False})
+
+
 @api.route('/api/uniparthenope/RecentAD/<adId>', methods=['GET'])
 class CurrentAA(Resource):
     def get(self, adId):
